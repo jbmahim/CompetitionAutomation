@@ -1,0 +1,4 @@
+id,name,email,password,category,level,sportsName
+id1,John Doe,john.doe@example.com,johnsPassword,Football,Amateur,Soccer
+id2,Jane Smith,jane.smith@example.com,janesPassword,Tennis,Professional,Tennis
+id3,Bob Johnson,bob.johnson@example.com,bobsPassword,Basketball,Intermediate,Basketball
