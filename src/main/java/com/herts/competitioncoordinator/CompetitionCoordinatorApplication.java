@@ -1,6 +1,8 @@
 package com.herts.competitioncoordinator;
 
 import com.herts.competitioncoordinator.controller.CompetitorController;
+import com.herts.competitioncoordinator.controller.OfficialController;
+import com.herts.competitioncoordinator.exception.CustomException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -11,9 +13,14 @@ import java.util.Scanner;
 @SpringBootApplication
 public class CompetitionCoordinatorApplication implements CommandLineRunner {
 
-	private CompetitorController competitorController;
-	public CompetitionCoordinatorApplication(CompetitorController competitorController){
+	private final CompetitorController competitorController;
+	private final OfficialController officialController;
+	private final Scanner scanner = new Scanner(System.in);
+
+	@Autowired
+	public CompetitionCoordinatorApplication(CompetitorController competitorController, OfficialController officialController) {
 		this.competitorController = competitorController;
+		this.officialController = officialController;
 	}
 
 	public static void main(String[] args) {
@@ -24,9 +31,40 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Scanner scanner = new Scanner(System.in);
-		boolean running = true;
+		boolean loggedIn = false;
 
+		while (!loggedIn) {
+			System.out.println("\nOfficial Login System");
+			System.out.println("1. Register Official");
+			System.out.println("2. Login");
+			System.out.println("3. Exit");
+			System.out.print("Choose an option: ");
+
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (choice) {
+				case 1:
+					officialController.registerOfficial();
+					break;
+				case 2:
+					loggedIn = officialController.loginOfficial();
+					break;
+				case 3:
+					System.exit(0);
+					break;
+				default:
+					System.out.println("Invalid option. Please try again.");
+			}
+		}
+
+		if(loggedIn) {
+			manageCompetitors();
+		}
+	}
+
+	private void manageCompetitors() throws CustomException {
+		boolean running = true;
 		while (running) {
 			System.out.println("\nCompetitor Management System");
 			System.out.println("1. List Competitors");
@@ -37,30 +75,26 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 			System.out.print("Choose an option: ");
 
 			int choice = scanner.nextInt();
-			scanner.nextLine(); // consume the newline
+			scanner.nextLine();
 
-			try {
-				switch (choice) {
-					case 1:
-						competitorController.listCompetitors();
-						break;
-					case 2:
-						competitorController.registerCompetitor();
-						break;
-					case 3:
-						competitorController.deleteCompetitor();
-						break;
-					case 4:
-						competitorController.findCompetitor();
-						break;
-					case 5:
-						running = false;
-						break;
-					default:
-						System.out.println("Invalid option. Please try again.");
-				}
-			} catch (Exception e) {
-				System.out.println("Error: " + e.getMessage());
+			switch (choice) {
+				case 1:
+					competitorController.listCompetitors();
+					break;
+				case 2:
+					competitorController.registerCompetitor();
+					break;
+				case 3:
+					competitorController.deleteCompetitor();
+					break;
+				case 4:
+					competitorController.findCompetitor();
+					break;
+				case 5:
+					running = false;
+					break;
+				default:
+					System.out.println("Invalid option. Please try again.");
 			}
 		}
 	}

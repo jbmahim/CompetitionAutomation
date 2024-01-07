@@ -42,17 +42,8 @@ public class CompetitorServiceImpl implements CompetitorService {
     }
 
     @Override
-    public void registerCompetitor(Competitor competitor) throws CustomException {
-        try {
-            List<Competitor> competitors = findAllCompetitor();
-            if (competitors.stream().anyMatch(c -> c.getId().equals(competitor.getId()))) {
-                throw new CustomException(new ResponseMessageDto("Competitor with this ID already exists", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
-            }
-            competitors.add(competitor);
-            writeCompetitorsToCsv(competitors);
-        } catch (Exception e) {
-            throw new CustomException(new ResponseMessageDto("Error registering competitor: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public Competitor registerCompetitor(Competitor competitor) throws CustomException {
+        return competitorRepository.save(competitor);
     }
 
     @Override

@@ -1,4 +1,2 @@
-"CATEGORY","EMAIL","ID","LEVEL","NAME","PASSWORD","SPORTSNAME"
-"Tennis","jane.smith@example.com","id2","Professional","Jane Smith","janesPassword","Tennis"
-"Basketball","bob.johnson@example.com","id3","Intermediate","Bob Johnson","bobsPassword","Basketball"
-"XYZ","shadril@xyz.com","id4","Intermediate","Shadril","1234","Cricket"
+"CATEGORY","DOB","EMAIL","ID","LEVEL","NAME","SPORTSNAME"
+"Sports","2001-10-09","shadril@outlook.com","a72d3","Beginner","Shadril","Cricket"

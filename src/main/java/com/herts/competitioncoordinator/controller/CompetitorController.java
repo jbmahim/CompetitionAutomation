@@ -5,6 +5,7 @@ import com.herts.competitioncoordinator.service.impl.CompetitorServiceImpl;
 import com.herts.competitioncoordinator.exception.CustomException;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -35,20 +36,9 @@ public class CompetitorController {
         }
     }
 
-    public void registerCompetitor() throws CustomException {
-        Competitor competitor = getCompetitorDetailsFromUser();
-        try {
-            competitorService.registerCompetitor(competitor);
-            System.out.println("Competitor registered successfully.");
-        } catch (Exception e) {
-            throw new CustomException("Error registering competitor: " + e.getMessage());
-        }
-    }
-
-    // Helper method to get competitor details from user input
-    private Competitor getCompetitorDetailsFromUser() {
-        System.out.print("Enter ID: ");
-        String id = scanner.nextLine();
+    public void registerCompetitor() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Registering New Competitor ---");
 
         System.out.print("Enter Name: ");
         String name = scanner.nextLine();
@@ -56,8 +46,14 @@ public class CompetitorController {
         System.out.print("Enter Email: ");
         String email = scanner.nextLine();
 
-        System.out.print("Enter Password: ");
-        String password = scanner.nextLine();
+        System.out.print("Enter Date of Birth (yyyy-MM-dd): ");
+        LocalDate dob = null;
+        try {
+            dob = LocalDate.parse(scanner.nextLine());
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format. Please use yyyy-MM-dd format.");
+            return; // Exit the method if the date is invalid
+        }
 
         System.out.print("Enter Category: ");
         String category = scanner.nextLine();
@@ -68,7 +64,20 @@ public class CompetitorController {
         System.out.print("Enter Sports Name: ");
         String sportsName = scanner.nextLine();
 
-        return new Competitor(id, name, email, password, category, level, sportsName);
+        try {
+            Competitor newCompetitor = new Competitor();
+            newCompetitor.setName(name);
+            newCompetitor.setEmail(email);
+            newCompetitor.setDob(String.valueOf(dob));
+            newCompetitor.setCategory(category);
+            newCompetitor.setLevel(level);
+            newCompetitor.setSportsName(sportsName);
+
+            Competitor registeredCompetitor = competitorService.registerCompetitor(newCompetitor);
+            System.out.println("Competitor registered successfully with ID: " + registeredCompetitor.getId());
+        } catch (CustomException e) {
+            System.out.println("Registration failed: " + e.getMessage());
+        }
     }
 
     public void deleteCompetitor() throws CustomException {

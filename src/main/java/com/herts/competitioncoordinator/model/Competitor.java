@@ -1,12 +1,10 @@
 package com.herts.competitioncoordinator.model;
 
-import java.time.LocalDate;
-
 public class Competitor {
     private String id;
     private String name;
     private String email;
-    private String password;
+    private String dob;
     private String category;
     private String level;
     private String sportsName;
@@ -14,11 +12,11 @@ public class Competitor {
     public Competitor() {
     }
 
-    public Competitor(String id, String name, String email, String password, String category, String level, String sportsName) {
+    public Competitor(String id, String name, String email, String dob, String category, String level, String sportsName) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.dob = dob;
         this.category = category;
         this.level = level;
         this.sportsName = sportsName;
@@ -48,12 +46,12 @@ public class Competitor {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getDob() {
+        return dob;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     public String getCategory() {
@@ -86,7 +84,7 @@ public class Competitor {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + dob + '\'' +
                 ", category='" + category + '\'' +
                 ", level='" + level + '\'' +
                 ", sportsName='" + sportsName + '\'' +
