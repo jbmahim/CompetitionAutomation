@@ -41,7 +41,7 @@ public class OfficialController {
         }
     }
 
-    public Boolean loginOfficial() {
+    public String loginOfficial() {
         System.out.print("Enter Email: ");
         String email = scanner.nextLine();
 
@@ -50,11 +50,11 @@ public class OfficialController {
 
         try {
             Official official = officialService.loginOfficial(email, password);
-            System.out.println("Login successful for Official: " + official.getOfficialId());
-            return true;
+            System.out.println("Login successful for Official: " + official.getOfficialId() + " - " + official.getCategory());
+            return official != null ? official.getCategory() : null;
         } catch (Exception e) {
             System.out.println("Login failed: " + e.getMessage());
         }
-        return false;
+        return null;
     }
 }

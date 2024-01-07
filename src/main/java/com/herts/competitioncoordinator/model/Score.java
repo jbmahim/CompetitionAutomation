@@ -1,31 +1,31 @@
 package com.herts.competitioncoordinator.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Score {
     private String scoreId;
     private String competitorId;
-    private String officialId;
-    private String sportsName;
-    private String category;
+    private String competitionId;
+    private Double[] scores = new Double[5];
     private String result;
+    private Double overallScore;
+
 
     public Score() {
     }
 
-    public Score(String scoreId, String competitorId, String officialId, String sportsName, String category, String result) {
+    public Score(String scoreId, String competitorId, String competitionId, Double[] scores) {
         this.scoreId = scoreId;
         this.competitorId = competitorId;
-        this.officialId = officialId;
-        this.sportsName = sportsName;
-        this.category = category;
-        this.result = result;
+        this.competitionId = competitionId;
+        this.scores = scores;
     }
 
-    public Score(String competitorId, String officialId, String sportsName, String category, String result) {
+    public Score(String competitorId, String competitionId, String result) {
         this.competitorId = competitorId;
-        this.officialId = officialId;
-        this.sportsName = sportsName;
-        this.category = category;
-        this.result = result;
+        this.competitionId = competitionId;
+        this.scores = scores;
     }
 
     public String getScoreId() {
@@ -44,28 +44,20 @@ public class Score {
         this.competitorId = competitorId;
     }
 
-    public String getOfficialId() {
-        return officialId;
+    public String getCompetitionId() {
+        return competitionId;
     }
 
-    public void setOfficialId(String officialId) {
-        this.officialId = officialId;
+    public void setCompetitionId(String competitionId) {
+        this.competitionId = competitionId;
     }
 
-    public String getSportsName() {
-        return sportsName;
+    public Double[] getScores() {
+        return scores;
     }
 
-    public void setSportsName(String sportsName) {
-        this.sportsName = sportsName;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
+    public void setScores(Double[] scores) {
+        this.scores = scores;
     }
 
     public String getResult() {
@@ -74,17 +66,30 @@ public class Score {
 
     public void setResult(String result) {
         this.result = result;
+        this.scores = parseScores(result);
     }
+
 
     @Override
     public String toString() {
         return "Score{" +
                 "scoreId='" + scoreId + '\'' +
                 ", competitorId='" + competitorId + '\'' +
-                ", officialId='" + officialId + '\'' +
-                ", sportsName='" + sportsName + '\'' +
-                ", category='" + category + '\'' +
-                ", result='" + result + '\'' +
+                ", competitionId='" + competitionId + '\'' +
+                ", scores=" + Arrays.toString(scores) +
                 '}';
+    }
+
+    private Double[] parseScores(String scoreString) {
+        return Arrays.stream(scoreString.split(","))
+                .map(Double::valueOf)
+                .toArray(Double[]::new);
+    }
+
+    public Double getOverallScore() {
+        return overallScore;
+    }
+    public void setOverallScore(Double overallScore) {
+        this.overallScore = overallScore;
     }
 }
