@@ -30,5 +30,17 @@ public class ScoreServiceImpl implements ScoreService {
                 .findFirst();
     }
 
+    @Override
+    public List<Score> findByCompetitionId(String competitionId) throws Exception {
+        List<Score> scores = scoreRepository.findAll();
+        return scores.stream()
+                .filter(score -> competitionId.equals(score.getCompetitionId()))
+                .toList();
+    }
+
+    public List<Score> findAll() throws Exception {
+        return scoreRepository.findAll();
+    }
+
 }
 

@@ -67,4 +67,12 @@ public class CompetitorServiceImpl implements CompetitorService {
         }
     }
 
+    public Optional<Competitor> findById(String id) throws CustomException {
+        Optional<Competitor> competitor = competitorRepository.findById(id);
+        if (competitor.isEmpty()){
+            throw new CustomException(new ResponseMessageDto("Competitor data is empty", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+        }
+        return competitor;
+    }
+
 }

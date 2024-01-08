@@ -57,4 +57,8 @@ public class OfficialController {
         }
         return null;
     }
+
+    public void emergencyResponse(){
+        System.out.printf("Emergency Response method called for the Emergency Personnel\n\n");
+    }
 }

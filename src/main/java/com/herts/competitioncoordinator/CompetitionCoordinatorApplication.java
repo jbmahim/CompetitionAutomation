@@ -46,8 +46,9 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 		while (!loggedIn) {
 			System.out.println("\nOfficial Login System");
 			System.out.println("1. Register Official");
-			System.out.println("2. Login");
-			System.out.println("3. Exit");
+			System.out.println("2. Login Official");
+			System.out.println("3. View Competitions Results (Open for All)");
+			System.out.println("4. Exit");
 			System.out.print("Choose an option: ");
 
 			int choice = scanner.nextInt();
@@ -64,6 +65,9 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 					}
 					break;
 				case 3:
+					competitionController.viewCompetitionResults();
+					break;
+				case 4:
 					System.exit(0);
 					break;
 				default:
@@ -73,6 +77,33 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 
 		if(role != null && role.equalsIgnoreCase("Staff")) {
 			staffManagement();
+		}
+		else if (role !=  null && role.equalsIgnoreCase("EmergencyPersonnel")){
+			emergencyPersonnelManagement();
+		}
+	}
+
+	private void emergencyPersonnelManagement() {
+		boolean running = true;
+		while (running) {
+			System.out.println("\nStaff Management System");
+			System.out.println("1. Emergency Response for Emergency Personnel");
+			System.out.println("2. Exit");
+			System.out.print("Choose an option: ");
+
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (choice) {
+				case 1:
+					officialController.emergencyResponse();
+					break;
+				case 2:
+					running = false;
+					break;
+				default:
+					System.out.println("Invalid option. Please try again.");
+			}
 		}
 	}
 
@@ -216,8 +247,12 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 		boolean running = true;
 		while (running) {
 			System.out.println("\nReport Management System");
-			System.out.println("1. Generate Report");
-			System.out.println("2. Exit");
+			System.out.println("1. Generate Report For Competitor");
+			System.out.println("2. Generate Full Report");
+			System.out.println("3. Generate Short Report For Competitor");
+			System.out.println("4. Generate Statistics Report");
+			System.out.println("5. Exit");
+
 			System.out.print("Choose an option: ");
 
 			int choice = scanner.nextInt();
@@ -228,6 +263,15 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 					reportController.generateAndDisplayReport();
 					break;
 				case 2:
+					reportController.displayFullReport();
+					break;
+				case 3:
+					reportController.displayShortReport();
+					break;
+				case 4:
+					reportController.displayStatisticsReport();
+					break;
+				case 5:
 					running = false;
 					break;
 				default:

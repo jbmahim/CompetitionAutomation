@@ -92,4 +92,14 @@ public class Score {
     public void setOverallScore(Double overallScore) {
         this.overallScore = overallScore;
     }
+
+    public double calculateAverageScore() {
+        double sum = 0;
+        for (Double score : scores) {
+            if (score != null) {
+                sum += score;
+            }
+        }
+        return sum / scores.length;
+    }
 }
