@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScoreServiceImpl implements ScoreService {
@@ -22,10 +23,12 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public List<Score> calculateOverallScores(String competitionId) throws Exception {
-        return null;
+    public Optional<Score> findByCompetitorId(String competitorId) throws Exception {
+        List<Score> scores = scoreRepository.findAll();
+        return scores.stream()
+                .filter(score -> competitorId.equals(score.getCompetitorId()))
+                .findFirst();
     }
-
 
 }
 

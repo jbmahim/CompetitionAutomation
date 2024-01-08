@@ -1,9 +1,6 @@
 package com.herts.competitioncoordinator;
 
-import com.herts.competitioncoordinator.controller.CompetitionController;
-import com.herts.competitioncoordinator.controller.CompetitorController;
-import com.herts.competitioncoordinator.controller.OfficialController;
-import com.herts.competitioncoordinator.controller.ScoreController;
+import com.herts.competitioncoordinator.controller.*;
 import com.herts.competitioncoordinator.exception.CustomException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,17 +16,20 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 	private final OfficialController officialController;
 	private final CompetitionController competitionController;
 	private final ScoreController scoreController;
+	private final ReportController reportController;
 	private final Scanner scanner = new Scanner(System.in);
 
 	@Autowired
 	public CompetitionCoordinatorApplication(CompetitorController competitorController,
 											 OfficialController officialController,
 											 CompetitionController competitionController,
-											 ScoreController scoreController) {
+											 ScoreController scoreController,
+											 ReportController reportController) {
 		this.competitorController = competitorController;
 		this.officialController = officialController;
 		this.competitionController = competitionController;
 		this.scoreController = scoreController;
+		this.reportController = reportController;
 	}
 
 	public static void main(String[] args) {
@@ -83,7 +83,8 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 			System.out.println("1. Manage Competitions");
 			System.out.println("2. Manage Competitors");
 			System.out.println("3. Manage Scores");
-			System.out.println("4. Exit");
+			System.out.println("4. Manage Reports");
+			System.out.println("5. Exit");
 			System.out.print("Choose an option: ");
 
 			int choice = scanner.nextInt();
@@ -100,6 +101,9 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 					manageScores();
 					break;
 				case 4:
+					manageReports();
+					break;
+				case 5:
 					running = false;
 					break;
 				default:
@@ -188,9 +192,8 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 		boolean running = true;
 		while (running) {
 			System.out.println("\nScore Management System");
-			System.out.println("1. Save Score");
-			System.out.println("2. Calculate Overall Scores");
-			System.out.println("3. Exit");
+			System.out.println("1. Enter Competitor's Score");
+			System.out.println("2. Exit");
 			System.out.print("Choose an option: ");
 
 			int choice = scanner.nextInt();
@@ -201,9 +204,30 @@ public class CompetitionCoordinatorApplication implements CommandLineRunner {
 					scoreController.saveScore();
 					break;
 				case 2:
-					scoreController.calculateOverallScores();
+					running = false;
 					break;
-				case 3:
+				default:
+					System.out.println("Invalid option. Please try again.");
+			}
+		}
+	}
+
+	private void manageReports() throws CustomException {
+		boolean running = true;
+		while (running) {
+			System.out.println("\nReport Management System");
+			System.out.println("1. Generate Report");
+			System.out.println("2. Exit");
+			System.out.print("Choose an option: ");
+
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (choice) {
+				case 1:
+					reportController.generateAndDisplayReport();
+					break;
+				case 2:
 					running = false;
 					break;
 				default:
